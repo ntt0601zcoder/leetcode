@@ -5,16 +5,17 @@
 
 ## Approach
 
-**Monotonic stack** (`dailyTemperatures`): stack giữ *chỉ số* các ngày đang
-chờ ngày ấm hơn, nhiệt độ giảm dần từ đáy lên đỉnh. Gặp ngày `i` ấm hơn đỉnh
-stack thì pop từng ngày `prev` và gán `result[prev] = i - prev`. Mỗi chỉ số
-push/pop đúng một lần → O(n).
+**Monotonic stack** (`dailyTemperatures`): the stack holds *indices* of days
+waiting for a warmer day, with temperatures decreasing from bottom to top. On
+a day `i` warmer than the stack top, pop each day `prev` and set
+`result[prev] = i - prev`. Each index is pushed/popped once → O(n).
 
-**Brute force** (`dailyTemperaturesBigOn`): với mỗi `i`, quét tới khi gặp ngày
-ấm hơn. Đơn giản nhưng O(n²) (tên hàm "BigOn" dễ gây nhầm — thực chất O(n²)).
+**Brute force** (`dailyTemperaturesBigOn`): for each `i`, scan forward until a
+warmer day. Simple but O(n²) (the name "BigOn" is misleading — it's actually
+O(n²)).
 
-Lưu ý: chỉ tính ngày **ấm hơn hẳn** (so sánh `>`), nhiệt độ bằng nhau không
-tính.
+Note: only a **strictly warmer** day counts (compare with `>`); equal
+temperatures don't.
 
 - Time:  O(n) stack / O(n²) brute
 - Space: O(n)

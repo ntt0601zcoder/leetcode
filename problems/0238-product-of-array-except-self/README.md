@@ -5,10 +5,10 @@
 
 ## Approach
 
-Hai lượt, không dùng phép chia. Lượt xuôi: `answer[i]` = tích mọi phần tử
-*bên trái* `i`. Lượt ngược: nhân thêm `suffix` = tích mọi phần tử *bên phải*
-`i`. Mảng `answer` đóng luôn vai trò prefix nên chỉ tốn O(1) bộ nhớ phụ
-(không tính mảng kết quả). Xử lý đúng cả khi có số 0.
+Two passes, no division. Forward pass: `answer[i]` = product of every element
+*to the left* of `i`. Backward pass: multiply in `suffix` = product of every
+element *to the right* of `i`. The `answer` array doubles as the prefix, so it
+uses only O(1) extra space (besides the output). Handles zeros correctly.
 
 - Time:  O(n)
-- Space: O(1) phụ (ngoài mảng kết quả)
+- Space: O(1) extra (besides the output)

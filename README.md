@@ -1,54 +1,55 @@
 # LeetCode (Go)
 
-Luyện LeetCode bằng Go. Mỗi bài là một package riêng trong `problems/`,
-đặt tên theo số bài để dễ tra cứu, và tự chứa (self-contained) nên có thể
-copy thẳng `solution.go` lên leetcode.com.
+LeetCode practice in Go. Each problem is its own package under `problems/`,
+named by problem number for easy lookup, and self-contained so you can paste
+`solution.go` straight into leetcode.com.
 
-## Cấu trúc
+## Layout
 
 ```text
 .
-├── Makefile                  # các shortcut: new, test, bench, ...
-├── go.mod                    # module gốc, go test ./... chạy mọi bài
-├── scripts/new.sh            # sinh khung bài mới
+├── Makefile                  # shortcuts: new, test, bench, ...
+├── go.mod                    # root module; go test ./... runs every problem
+├── scripts/new.sh            # scaffold a new problem
 └── problems/
     └── 0001-two-sum/
-        ├── solution.go       # lời giải (paste thẳng lên LeetCode được)
+        ├── solution.go       # the solution (paste-ready for LeetCode)
         ├── solution_test.go  # table-driven test + benchmark
-        └── README.md         # đề bài, ý tưởng, độ phức tạp
+        └── README.md         # statement, idea, complexity
 ```
 
-## Bắt đầu một bài mới
+## Start a new problem
 
 ```bash
-# bài thường
+# plain problem
 make new ID=1 SLUG=two-sum
 
-# bài dùng linked list (tự thêm ListNode + helper build/flatten)
+# linked-list problem (adds ListNode + build/flatten helpers)
 make new ID=2 SLUG=add-two-numbers KIND=list DIFF=medium
 
-# bài dùng cây nhị phân (tự thêm TreeNode + builder level-order)
+# binary-tree problem (adds TreeNode + level-order builder)
 make new ID=104 SLUG=maximum-depth-of-binary-tree KIND=tree DIFF=easy
 ```
 
-Tham số: `ID` (số bài), `SLUG` (kebab-case), `KIND=plain|list|tree`,
+Parameters: `ID` (problem number), `SLUG` (kebab-case), `KIND=plain|list|tree`,
 `TITLE`, `DIFF=easy|medium|hard`, `URL`.
 
-## Vòng lặp luyện tập
+## Practice loop
 
 ```bash
-make new ID=1 SLUG=two-sum   # 1. sinh khung
-# 2. sửa solution.go + thêm test case
-make test P=0001             # 3. chạy test riêng bài đó
-make test                    # chạy toàn bộ
+make new ID=1 SLUG=two-sum   # 1. scaffold
+# 2. edit solution.go + add test cases
+make test P=0001             # 3. run just that problem
+make test                    # run everything
 ```
 
-## Nhiều lời giải cho cùng 1 bài
+## Multiple solutions for one problem
 
-Cứ giữ tất cả trong cùng package (cùng thư mục bài), mỗi cách một hàm — có
-thể tách thành nhiều file (`bruteforce.go`, `hashmap.go`...) cho gọn. Khai
-báo một map `solutions` rồi cho test chạy *mọi cách* qua cùng bộ case, và
-benchmark so sánh tốc độ. Xem `problems/0001-two-sum` làm mẫu:
+Keep them all in the same package (the problem's directory), one function per
+approach — you can split them into several files (`bruteforce.go`,
+`hashmap.go`...) if you like. Declare a `solutions` map and let the test run
+*every* approach against the same cases, plus a benchmark to compare speed.
+See `problems/0001-two-sum` for a full example:
 
 ```go
 var solutions = map[string]func(nums []int, target int) []int{
@@ -63,31 +64,32 @@ for name, fn := range solutions {
 }
 ```
 
-Thêm cách mới = viết thêm 1 hàm + thêm 1 dòng vào map. Scaffold `KIND=list`
-và `KIND=tree` đã sinh sẵn map này; `KIND=plain` có comment hướng dẫn.
+Adding an approach = one more function + one line in the map. The `KIND=list`
+and `KIND=tree` scaffolds generate this map for you; `KIND=plain` includes a
+guiding comment.
 
 ```bash
-make test P=0001    # chạy tất cả các cách: brute/basic, hashmap/basic, ...
-make bench P=0001   # so sánh tốc độ giữa các cách
+make test P=0001    # run every approach: brute/basic, hashmap/basic, ...
+make bench P=0001   # compare speed across approaches
 ```
 
-## Các lệnh khác
+## Other commands
 
 ```bash
-make help        # liệt kê mọi lệnh
-make test P=...  # test 1 bài (lọc theo số hoặc slug)
-make test-race   # test với race detector
-make bench P=... # chạy benchmark
-make cover P=... # coverage + mở báo cáo HTML
-make verify      # fmt + vet + test toàn bộ
-make list        # liệt kê các bài đã làm
-make count       # đếm số bài
+make help        # list every command
+make test P=...  # test one problem (filter by number or slug)
+make test-race   # test with the race detector
+make bench P=... # run benchmarks
+make cover P=... # coverage + open the HTML report
+make verify      # fmt + vet + test everything
+make list        # list solved problems
+make count       # count problems
 ```
 
-## Quy ước
+## Conventions
 
-- **Package** = slug bỏ dấu gạch (vd `two-sum` → `twosum`); thêm tiền tố
-  `p` nếu bắt đầu bằng số (vd `3sum` → `p3sum`).
-- **Hàm giải** đặt theo camelCase của slug (vd `twoSum`), viết thường để
-  khớp đúng chữ ký LeetCode.
-- **Test** là white-box (cùng package) nên gọi được hàm viết thường.
+- **Package** = slug with hyphens removed (e.g. `two-sum` → `twosum`); prefixed
+  with `p` if it would start with a digit (e.g. `3sum` → `p3sum`).
+- **Solution function** is the lowerCamelCase of the slug (e.g. `twoSum`),
+  lowercase to match LeetCode's signature exactly.
+- **Tests** are white-box (same package) so they can call the unexported func.

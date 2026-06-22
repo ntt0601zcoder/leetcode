@@ -5,12 +5,12 @@
 
 ## Approach
 
-Duyệt token với một stack: gặp **số** thì push; gặp **toán tử** thì pop hai
-phần tử trên cùng (`num1` sâu hơn, `num2` ở đỉnh), tính `num1 op num2`, push
-kết quả lại. Cuối cùng đỉnh stack là đáp án.
+Scan the tokens with a stack: push every **number**; on an **operator**, pop
+the top two values (`num1` is the deeper one, `num2` is on top), compute
+`num1 op num2`, and push the result back. The final stack top is the answer.
 
-Lưu ý: thứ tự toán hạng quan trọng với `-` và `/` (num1 op num2, không phải
-ngược lại); phép chia **cắt về 0** — đúng với phép `/` int của Go, vd
+Note: operand order matters for `-` and `/` (`num1 op num2`, not the reverse);
+division **truncates toward zero**, which matches Go's integer `/`, e.g.
 `-7 / 3 == -2`.
 
 - Time:  O(n)

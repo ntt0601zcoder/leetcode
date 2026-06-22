@@ -5,13 +5,13 @@
 
 ## Approach
 
-Sort mảng, cố định 2 chỉ số ngoài `i`, `j` (vòng lặp lồng), rồi dùng hai con
-trỏ `k`/`h` tìm cặp còn lại cho đủ `target`. Để kết quả **không trùng**: bỏ
-qua `nums[i]`, `nums[j]` lặp lại, và sau khi tìm thấy một bộ thì nhảy qua các
-`nums[k]`, `nums[h]` bằng nhau.
+Sort the array, fix the two outer indices `i`, `j` (nested loops), then use a
+two-pointer scan `k`/`h` to find the remaining pair that reaches `target`. To
+keep the result **duplicate-free**: skip repeated `nums[i]` and `nums[j]`, and
+after recording a quadruplet skip equal `nums[k]` / `nums[h]`.
 
-Lưu ý: kết quả trả về theo **thứ tự bất kỳ**, nên test chuẩn hoá (sort trong
-mỗi bộ + sort danh sách) trước khi so.
+Note: the answer may be returned in **any order**, so the test normalizes
+(sort within each tuple + sort the list) before comparing.
 
 - Time:  O(n^3)
-- Space: O(1) phụ (ngoài mảng kết quả; chưa tính chi phí sort)
+- Space: O(1) extra (besides the output; excluding the sort cost)

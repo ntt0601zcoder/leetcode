@@ -5,14 +5,16 @@
 
 ## Approach
 
-Hiện tại: gom nhóm bằng cách so từng chuỗi với key đại diện của mỗi nhóm
-(`isAnagramMap`). Đơn giản nhưng O(n²·L) vì phải so với mọi nhóm đã có.
+Current approach: group strings by comparing each one against the
+representative key of every existing group (`isAnagramMap`). Simple but
+O(n²·L), since each string is compared against all current groups.
 
-Cách phổ biến hơn O(n·L·logL): dùng *chuỗi đã sort* (hoặc count 26 ký tự)
-làm key của map → mỗi chuỗi tra key một lần.
+A more common O(n·L·logL) approach: use the *sorted string* (or a 26-letter
+count) as the map key, so each string is looked up once.
 
-Lưu ý test: thứ tự các nhóm trong kết quả là **không xác định** (duyệt map),
-nên test so sánh sau khi chuẩn hoá (sort trong nhóm + sort các nhóm).
+Test note: the order of the groups in the result is **undefined** (map
+iteration), so the test compares after normalizing (sort within each group +
+sort the groups).
 
-- Time:  O(n²·L) hiện tại / O(n·L·logL) nếu dùng sorted-key
+- Time:  O(n²·L) current / O(n·L·logL) with a sorted key
 - Space: O(n·L)

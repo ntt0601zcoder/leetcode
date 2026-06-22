@@ -5,8 +5,8 @@
 
 ## Approach
 
-Dùng một set (`map[int]...`): duyệt từng phần tử, nếu đã có trong set thì
-trả về `true`, ngược lại thêm vào. Hết mảng mà không trùng thì `false`.
+Use a set (`map[int]...`): scan each element, return `true` if it's already in
+the set, otherwise add it. If the scan finishes with no repeat, return `false`.
 
 - Time:  O(n)
 - Space: O(n)

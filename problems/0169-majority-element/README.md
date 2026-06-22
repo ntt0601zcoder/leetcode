@@ -5,10 +5,10 @@
 
 ## Approach
 
-Đếm tần suất bằng map; ngay khi một phần tử vượt `n/2` thì trả về luôn. Đề
-đảm bảo phần tử đa số luôn tồn tại.
+Count frequencies with a map; return as soon as an element exceeds `n/2`. The
+problem guarantees a majority element always exists.
 
-Tối ưu hơn: thuật toán bỏ phiếu Boyer-Moore — O(n) thời gian, O(1) bộ nhớ.
+More efficient: the Boyer-Moore voting algorithm — O(n) time, O(1) space.
 
 - Time:  O(n)
 - Space: O(n) (Boyer-Moore: O(1))

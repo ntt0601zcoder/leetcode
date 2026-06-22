@@ -5,12 +5,12 @@
 
 ## Approach
 
-Đếm tần suất bằng map, lấy danh sách các phần tử phân biệt, sort giảm dần
-theo tần suất rồi lấy `k` phần tử đầu. (Có thể tối ưu O(n) bằng bucket sort
-theo tần suất, hoặc dùng heap kích thước k.)
+Count frequencies with a map, take the list of distinct elements, sort it by
+frequency descending, then take the first `k`. (Can be optimized to O(n) with
+a bucket sort by frequency, or a size-k heap.)
 
-Lưu ý: đề cho trả về theo **thứ tự bất kỳ** và đáp án **duy nhất**, nên test
-so sánh không phụ thuộc thứ tự (sort hai bên rồi so).
+Note: the problem returns the answer in **any order** and the answer is
+**unique**, so the test compares order-independently (sort both sides).
 
-- Time:  O(n + m·log m) với m = số phần tử phân biệt (O(n) nếu bucket sort)
+- Time:  O(n + m·log m) where m = number of distinct elements (O(n) with bucket sort)
 - Space: O(m)
