@@ -1,11 +1,16 @@
 # 735. Asteroid Collision
 
-- Difficulty: ?
+- Difficulty: medium
 - Link: https://leetcode.com/problems/asteroid-collision/
 
 ## Approach
 
-_TODO: jot down the idea, time/space complexity, and any edge cases._
+Stack of surviving asteroids. A collision happens only when the top of the
+stack moves right (positive) and the incoming asteroid moves left (negative).
+While that holds, compare absolute sizes: equal sizes annihilate both, a
+smaller top is popped and the incoming asteroid keeps checking the new top, and
+a smaller incoming asteroid is destroyed. Anything that survives the chain of
+collisions is pushed, and the stack is the final answer.
 
-- Time:  O(?)
-- Space: O(?)
+- Time:  O(n)
+- Space: O(n)

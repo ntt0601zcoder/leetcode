@@ -2,25 +2,56 @@ package validparentheses
 
 import "testing"
 
-// To compare multiple approaches, declare them in a map and range over it,
-// e.g. (see problems/0001-two-sum for a full example):
-//   var solutions = map[string]func(/* args */) /* ret */{
-//       "v1": validParentheses,
-//   }
-//   for name, fn := range solutions { for _, tt := range tests { ... } }
+// solutions lists every approach; the test runs all cases against each.
+var solutions = map[string]func(s string) bool{
+	"stack": isValid,
+}
 
-func TestValidParentheses(t *testing.T) {
+func TestIsValid(t *testing.T) {
 	tests := []struct {
 		name string
-		// TODO: input fields
-		want int
+		s    string
+		want bool
 	}{
-		// TODO: add cases
+		{name: "leetcode example 1", s: "()", want: true},
+		{name: "leetcode example 2", s: "()[]{}", want: true},
+		{name: "leetcode example 3", s: "(]", want: false},
+		{name: "nested valid", s: "([{}])", want: true},
+		{name: "wrong order close", s: "([)]", want: false},
+		{name: "single open", s: "(", want: false},
+		{name: "single close", s: ")", want: false},
+		{name: "empty string", s: "", want: true},
+		{name: "unmatched trailing open", s: "(()", want: false},
+		{name: "extra closing", s: "())", want: false},
+		{name: "mismatched pair", s: "(}", want: false},
+		{name: "deeply nested", s: "{[()()]}", want: true},
+		{name: "close before open", s: "}{", want: false},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// TODO: call validParentheses and compare against tt.want
-			_ = tt
+	for name, fn := range solutions {
+		for _, tc := range tests {
+			t.Run(name+"/"+tc.name, func(t *testing.T) {
+				got := fn(tc.s)
+				if got != tc.want {
+					t.Errorf("isValid(%q) = %v, want %v", tc.s, got, tc.want)
+				}
+			})
+		}
+	}
+}
+
+func BenchmarkIsValid(b *testing.B) {
+	s := ""
+	for i := 0; i < 500; i++ {
+		s += "([{"
+	}
+	for i := 0; i < 500; i++ {
+		s += "}])"
+	}
+	for name, fn := range solutions {
+		b.Run(name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				fn(s)
+			}
 		})
 	}
 }
