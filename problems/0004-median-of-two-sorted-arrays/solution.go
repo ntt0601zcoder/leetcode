@@ -9,6 +9,59 @@ import (
 
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	short, long := nums1, nums2
+
+	if len(nums1) > len(nums2) {
+		short, long = long, short
+	}
+
+	shortLen, longLen := len(short), len(long)
+	totalLen := shortLen + longLen
+	leftHalfLen := (totalLen + 1) / 2
+	lo, hi := 0, shortLen
+
+	for lo <= hi {
+		shortCut := (hi + lo) / 2
+		longCut := leftHalfLen - shortCut
+		shortLeft, shortRight := math.MinInt, math.MaxInt
+
+		if shortCut > 0 {
+			shortLeft = short[shortCut-1]
+		}
+
+		if shortCut < shortLen {
+			shortRight = short[shortCut]
+		}
+
+		longLeft, longRight := math.MinInt, math.MaxInt
+
+		if longCut > 0 {
+			longLeft = long[longCut-1]
+		}
+
+		if longCut < longLen {
+			longRight = long[longCut]
+		}
+
+		switch {
+		case shortLeft > longRight:
+			hi = shortCut - 1
+		case longLeft > shortRight:
+			lo = shortCut + 1
+		default:
+			maxLeft := max(shortLeft, longLeft)
+			if totalLen%2 == 1 {
+				return float64(maxLeft)
+			}
+			minRight := min(shortRight, longRight)
+			return float64(maxLeft+minRight) / 2
+		}
+	}
+
+	return 0
+}
+
+func findMedianSortedArraysBinarySearch(nums1 []int, nums2 []int) float64 {
+	short, long := nums1, nums2
 	if len(short) > len(long) {
 		short, long = long, short
 	}
