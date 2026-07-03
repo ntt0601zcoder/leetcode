@@ -4,23 +4,19 @@ package longestsubstringwithoutrepeatingcharacters
 
 func lengthOfLongestSubstring(s string) int {
 	left, maxlen := 0, 0
-	set := make(map[byte]struct{}, 0)
+	set := make(map[byte]struct{})
 
-	for right, c := range s {
-		if _, ok := set[byte(c)]; ok {
-			for {
-				if _, ok := set[byte(c)]; !ok {
-					break
-				}
-				delete(set, s[left])
-				left++
+	for right := 0; right < len(s); right++ {
+		c := s[right]
+		for {
+			if _, ok := set[c]; !ok {
+				break
 			}
-			set[byte(c)] = struct{}{}
-		} else {
-			set[byte(c)] = struct{}{}
-			maxlen = max(maxlen, right-left+1)
+			delete(set, s[left])
+			left++
 		}
+		set[c] = struct{}{}
+		maxlen = max(maxlen, right-left+1)
 	}
-
 	return maxlen
 }
