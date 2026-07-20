@@ -3,6 +3,10 @@
 package numberofislands
 
 func numIslands(grid [][]byte) int {
+	if len(grid) == 0 || len(grid[0]) == 0 {
+		return 0
+	}
+
 	rows, cols := len(grid), len(grid[0])
 	count := 0
 
