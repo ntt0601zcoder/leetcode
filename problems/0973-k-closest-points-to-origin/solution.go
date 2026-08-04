@@ -1,47 +1,50 @@
 package kclosestpointstoorigin
 
-import (
-	"container/heap"
-)
+import "container/heap"
 
-type DistanceHeap [][]int
+type MinHeap [][]int
 
-func (d DistanceHeap) Len() int {
-	return len(d)
+func (m MinHeap) Len() int {
+	return len(m)
 }
 
-func (d DistanceHeap) Less(i int, j int) bool {
-	return calcDistance(d[i]) > calcDistance(d[j])
+func (m MinHeap) Less(i int, j int) bool {
+	return calcDistance(m[i]) < calcDistance(m[j])
 }
 
-func (d *DistanceHeap) Pop() any {
-	old := *d
-	val := old[old.Len()-1]
-	*d = old[:old.Len()-1]
+func (m *MinHeap) Pop() any {
+	old := *m
+	n := len(old)
+	val := old[n-1]
+	*m = old[:n-1]
 
 	return val
 }
 
-func (d *DistanceHeap) Push(x any) {
-	*d = append(*d, x.([]int))
+func (m *MinHeap) Push(x any) {
+	*m = append(*m, x.([]int))
 }
 
-func (d DistanceHeap) Swap(i int, j int) {
-	d[i], d[j] = d[j], d[i]
+func (m MinHeap) Swap(i int, j int) {
+	m[i], m[j] = m[j], m[i]
 }
-
-func calcDistance(point []int) int { return point[0]*point[0] + point[1]*point[1] }
 
 func kClosest(points [][]int, k int) [][]int {
-	h := &DistanceHeap{}
+	h := &MinHeap{}
 
 	for _, point := range points {
 		heap.Push(h, point)
-
-		if h.Len() > k {
-			heap.Pop(h)
-		}
 	}
 
-	return *h
+	var result [][]int
+
+	for i := 0; i < k; i++ {
+		result = append(result, heap.Pop(h).([]int))
+	}
+
+	return result
+}
+
+func calcDistance(point []int) int {
+	return point[0]*point[0] + point[1]*point[1]
 }
